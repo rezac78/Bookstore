@@ -1,18 +1,6 @@
 import React from "react";
-const books = [
-  {
-    _id: "1",
-    title: "Book Title 1",
-    author: "Author Name 1",
-    genre: "Genre 1",
-  },
-  {
-    _id: "2",
-    title: "Book Title 2",
-    author: "Author Name 2",
-    genre: "Genre 2",
-  },
-];
+import { books } from "../../Events/Events";
+import PartButton from "../Shared/Button/Button";
 const BookList = () => {
   const handleEdit = (id) => {
     console.log(`Edit book with id: ${id}`);
@@ -39,18 +27,18 @@ const BookList = () => {
                   <p className="text-sm text-gray-500">{book.genre}</p>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <button
+                  <PartButton
+                    Title="Edit"
                     onClick={() => handleEdit(book._id)}
+                    type="submit"
                     className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition duration-300 ease-in-out"
-                  >
-                    Edit
-                  </button>
-                  <button
+                  />
+                  <PartButton
+                    Title="Delete"
                     onClick={() => handleDelete(book._id)}
+                    type="submit"
                     className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition duration-300 ease-in-out"
-                  >
-                    Delete
-                  </button>
+                  />
                 </div>
               </li>
             ))}

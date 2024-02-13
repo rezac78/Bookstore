@@ -1,13 +1,12 @@
 import React from "react";
-import { books } from "../../Events/Events";
 import PartButton from "../Shared/Button/Button";
-const BookList = () => {
+const BookList = ({ books, onDeleteBook }) => {
   const handleEdit = (id) => {
     console.log(`Edit book with id: ${id}`);
   };
 
-  const handleDelete = (id) => {
-    console.log(`Delete book with id: ${id}`);
+  const handleDelete = async (id) => {
+    await onDeleteBook(id);
   };
   return (
     <div className="flex justify-center items-center mt-2 bg-gray-100">

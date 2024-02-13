@@ -1,15 +1,20 @@
 import React from "react";
+
 const PartInputs = ({
   Title,
   type,
   id,
-  Change,
   className,
   TypeFor,
   placeholder,
+  Register,
+  error,
 }) => {
+  const inputClassName = `${className} ${
+    error ? "border-red-500" : "border-gray-300"
+  }`;
   return (
-    <div>
+    <div className="mb-4">
       {TypeFor === "Searchbar" ? null : (
         <label htmlFor={id} className="block text-sm font-medium text-gray-700">
           {Title}
@@ -17,13 +22,13 @@ const PartInputs = ({
       )}
       <input
         type={type}
+        {...Register(id)}
         id={id}
         name={id}
-        value={Title || ""}
-        onChange={Change}
-        className={className}
+        className={inputClassName}
         placeholder={placeholder || ""}
       />
+      {error && <p className="text-sm text-red-500">{error[id]?.message}</p>}
     </div>
   );
 };

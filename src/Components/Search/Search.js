@@ -1,6 +1,6 @@
+// src/components/SearchBar.js
 import React, { useState } from "react";
 import PartButton from "../Shared/Button/Button";
-import PartInputs from "../Shared/Inputs/Input";
 
 const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState("");
@@ -14,14 +14,12 @@ const SearchBar = ({ onSearch }) => {
     <div className="flex justify-center items-center my-8">
       <div className="w-full max-w-md">
         <form onSubmit={handleSubmit} className="flex items-center">
-          <PartInputs
+          <input
+            type="text"
             className="w-full px-4 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            Change={(e) => setQuery(e.target.value)}
-            Title={query}
-            type={"text"}
-            id={"search"}
             placeholder="Search for books..."
-            TypeFor="Searchbar"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
           <PartButton
             Title="Search"

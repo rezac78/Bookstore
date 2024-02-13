@@ -12,6 +12,9 @@ import {
 
 function App() {
   const [books, setBooks] = useState([]);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [SuccessMessage, setSuccessMessage] = useState();
+  const [Message, setMessage] = useState();
   useEffect(() => {
     BookService()
       .then((data) => {
@@ -24,6 +27,12 @@ function App() {
   const handleAddBook = async (bookData) => {
     try {
       const response = await CreateBook(bookData);
+      setSuccessMessage(response.success);
+      setMessage(response.message);
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 5000);
       if (response.success) {
         const newBook = response.data;
         setBooks((prevBooks) => [...prevBooks, newBook]);
@@ -32,10 +41,15 @@ function App() {
       console.error("Error creating book:", error);
     }
   };
-
   const handleDeleteBook = async (id) => {
     try {
-      await deleteBook(id);
+      const response = await deleteBook(id);
+      setSuccessMessage(response.success);
+      setMessage(response.message);
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 5000);
       setBooks((prevBooks) => prevBooks.filter((book) => book._id !== id));
     } catch (error) {
       console.error("Error deleting book:", error);
@@ -44,7 +58,12 @@ function App() {
   return (
     <div className="bg-gradient-to-r from-cyan-500 to-blue-500">
       <Navbar />
-      <BookForm onAddBook={handleAddBook} />
+      <BookForm
+        Message={Message}
+        SuccessMessage={SuccessMessage}
+        showSuccessMessage={showSuccessMessage}
+        onAddBook={handleAddBook}
+      />
       <SearchBar />
       <BookList books={books} onDeleteBook={handleDeleteBook} />
     </div>

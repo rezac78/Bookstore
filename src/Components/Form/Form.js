@@ -5,7 +5,13 @@ import PartInputs from "../Shared/Inputs/Input";
 import PartButton from "../Shared/Button/Button";
 import { useForm } from "react-hook-form";
 import { FormValidationSchema } from "../../shema/Form";
-const BookForm = ({ onAddBook }) => {
+import PartAlert from "../Shared/Alert/Alert";
+const BookForm = ({
+  onAddBook,
+  Message,
+  showSuccessMessage,
+  SuccessMessage,
+}) => {
   const {
     register,
     handleSubmit,
@@ -22,6 +28,9 @@ const BookForm = ({ onAddBook }) => {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
+      {showSuccessMessage && (
+        <PartAlert Message={Message} type={SuccessMessage} />
+      )}
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-lg bg-white rounded-lg shadow-md p-8"

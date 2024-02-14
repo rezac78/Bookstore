@@ -1,29 +1,45 @@
-import React from "react";
-import { Inputs } from "../../Events/Events";
-import { yupResolver } from "@hookform/resolvers/yup";
+import React, { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { LoginInput } from "../../Events/Events";
 import PartInputs from "../Shared/Inputs/Input";
 import PartButton from "../Shared/Button/Button";
 import { useForm } from "react-hook-form";
-import { FormValidationSchema } from "../../shema/Form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { FormValidationLoginSchema } from "../../shema/Form";
+import { LoginService } from "../../services/AuthService";
 import PartAlert from "../Shared/Alert/Alert";
-const BookForm = ({
-  onAddBook,
-  Message,
-  showSuccessMessage,
-  SuccessMessage,
-}) => {
+import { useNavigate } from "react-router-dom";
+const Login = () => {
+  const { login } = useAuth();
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [SuccessMessage, setSuccessMessage] = useState();
+  const [Message, setMessage] = useState();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm({
-    resolver: yupResolver(FormValidationSchema),
+    resolver: yupResolver(FormValidationLoginSchema),
   });
-
   const onSubmit = async (data) => {
-    await onAddBook(data);
-    reset();
+    try {
+      const response = await LoginService(data);
+      setSuccessMessage(response.success);
+      setMessage(response.message);
+      setShowSuccessMessage(true);
+      if (response.success) {
+        login();
+        reset();
+      }
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+        navigate("/");
+      }, 3000);
+    } catch (err) {
+      console.log("Login failed. Please try again.");
+    }
   };
 
   return (
@@ -36,7 +52,7 @@ const BookForm = ({
         className="w-full max-w-lg bg-white rounded-lg shadow-md p-8"
       >
         <div className="mb-4 text-left">
-          {Inputs.map((e) => (
+          {LoginInput.map((e) => (
             <PartInputs
               className="mt-1 px-2 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50"
               Title={e.InputTitle}
@@ -58,4 +74,4 @@ const BookForm = ({
   );
 };
 
-export default BookForm;
+export default Login;

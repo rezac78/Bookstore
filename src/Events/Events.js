@@ -32,3 +32,17 @@ export const Inputs = [
     id: "genre",
   },
 ];
+export const LoginInput = [
+  {
+    _id: "1",
+    InputTitle: "Email",
+    type: "email",
+    id: "email",
+  },
+  {
+    _id: "2",
+    InputTitle: "Password",
+    type: "text",
+    id: "password",
+  },
+];

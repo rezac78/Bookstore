@@ -1,69 +1,70 @@
+import React from "react";
 import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
-import BookForm from "./Components/Form/Form";
-import UpdateForm from "./Components/Form/UpdateForm";
-import BookList from "./Components/List/List";
-import SearchBar from "./Components/Search/Search";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Pagination from "./Components/Shared/Pagination/Pagination";
-import { useBooks } from "./hooks/useBook";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import Home from "./Components/Home/Home";
+import Login from "./Components/Login/Login";
+import PageEdit from "./Components/PageEdit/PageEdit";
+
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+};
+
+const RedirectIfLoggedIn = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) {
+    return <Navigate to="/" />;
+  }
+  return children;
+};
 
 function App() {
-  const {
-    books,
-    addBook,
-    removeBook,
-    editBook,
-    setSearchQuery,
-    showSuccessMessage,
-    SuccessMessage,
-    setCurrentPage,
-    booksPerPage,
-    Message,
-    filteredBooks,
-  } = useBooks();
   return (
-    <Router>
-      <div className="bg-gradient-to-r from-cyan-500 to-blue-500">
-        <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <BookForm
-                  Message={Message}
-                  SuccessMessage={SuccessMessage}
-                  showSuccessMessage={showSuccessMessage}
-                  onAddBook={addBook}
-                />
-                <SearchBar onSearch={setSearchQuery} />
-                <BookList books={books} onDeleteBook={removeBook} />
-                <Pagination
-                  booksPerPage={booksPerPage}
-                  totalBooks={filteredBooks.length}
-                  paginate={setCurrentPage}
-                />
-              </>
-            }
-            exact
-          />
-          <Route
-            path="/:id"
-            element={
-              <>
-                <UpdateForm
-                  Message={Message}
-                  SuccessMessage={SuccessMessage}
-                  showSuccessMessage={showSuccessMessage}
-                  EditBook={editBook}
-                />
-              </>
-            }
-          />
-        </Routes>
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <Routes>
+            <Route
+              path="/login"
+              element={
+                <RedirectIfLoggedIn>
+                  <Login />
+                </RedirectIfLoggedIn>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/:id"
+              element={
+                <ProtectedRoute>
+                  <PageEdit />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
+
 export default App;

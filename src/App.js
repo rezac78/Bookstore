@@ -18,9 +18,21 @@ function App() {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [SuccessMessage, setSuccessMessage] = useState();
   const [Message, setMessage] = useState();
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   useEffect(() => {
     fetchBooks();
   }, []);
+  useEffect(() => {
+    const lowercasedQuery = searchQuery.toLowerCase();
+    const filtered = books.filter(
+      (book) =>
+        book.title.toLowerCase().includes(lowercasedQuery) ||
+        book.author.toLowerCase().includes(lowercasedQuery) ||
+        book.genre.toLowerCase().includes(lowercasedQuery)
+    );
+    setFilteredBooks(filtered);
+  }, [searchQuery, books]);
   const handleAddBook = async (bookData) => {
     try {
       const response = await CreateBook(bookData);
@@ -55,7 +67,7 @@ function App() {
   const handleEditBook = async (id, data) => {
     const response = await updateBook(id, data);
     if (response.success) {
-      fetchBooks(); 
+      fetchBooks();
       setBooks((books) =>
         books.map((book) =>
           book._id === id ? { ...book, ...response.data } : book
@@ -94,8 +106,11 @@ function App() {
                   showSuccessMessage={showSuccessMessage}
                   onAddBook={handleAddBook}
                 />
-                <SearchBar />
-                <BookList books={books} onDeleteBook={handleDeleteBook} />
+                <SearchBar onSearch={setSearchQuery} />
+                <BookList
+                  books={filteredBooks}
+                  onDeleteBook={handleDeleteBook}
+                />
               </>
             }
             exact

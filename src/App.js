@@ -4,93 +4,24 @@ import BookForm from "./Components/Form/Form";
 import UpdateForm from "./Components/Form/UpdateForm";
 import BookList from "./Components/List/List";
 import SearchBar from "./Components/Search/Search";
-import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import {
-  BookService,
-  CreateBook,
-  deleteBook,
-  updateBook,
-} from "../src/services/BookService";
+import Pagination from "./Components/Shared/Pagination/Pagination";
+import { useBooks } from "./hooks/useBook";
 
 function App() {
-  const [books, setBooks] = useState([]);
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [SuccessMessage, setSuccessMessage] = useState();
-  const [Message, setMessage] = useState();
-  const [filteredBooks, setFilteredBooks] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  useEffect(() => {
-    fetchBooks();
-  }, []);
-  useEffect(() => {
-    const lowercasedQuery = searchQuery.toLowerCase();
-    const filtered = books.filter(
-      (book) =>
-        book.title.toLowerCase().includes(lowercasedQuery) ||
-        book.author.toLowerCase().includes(lowercasedQuery) ||
-        book.genre.toLowerCase().includes(lowercasedQuery)
-    );
-    setFilteredBooks(filtered);
-  }, [searchQuery, books]);
-  const handleAddBook = async (bookData) => {
-    try {
-      const response = await CreateBook(bookData);
-      setSuccessMessage(response.success);
-      setMessage(response.message);
-      setShowSuccessMessage(true);
-      setTimeout(() => {
-        setShowSuccessMessage(false);
-      }, 5000);
-      if (response.success) {
-        const newBook = response.data;
-        setBooks((prevBooks) => [...prevBooks, newBook]);
-      }
-    } catch (error) {
-      console.error("Error creating book:", error);
-    }
-  };
-  const handleDeleteBook = async (id) => {
-    try {
-      const response = await deleteBook(id);
-      setSuccessMessage(response.success);
-      setMessage(response.message);
-      setShowSuccessMessage(true);
-      setTimeout(() => {
-        setShowSuccessMessage(false);
-      }, 5000);
-      setBooks((prevBooks) => prevBooks.filter((book) => book._id !== id));
-    } catch (error) {
-      console.error("Error deleting book:", error);
-    }
-  };
-  const handleEditBook = async (id, data) => {
-    const response = await updateBook(id, data);
-    if (response.success) {
-      fetchBooks();
-      setBooks((books) =>
-        books.map((book) =>
-          book._id === id ? { ...book, ...response.data } : book
-        )
-      );
-    } else {
-      console.error("Error editing book:", response.message);
-    }
-    setSuccessMessage(response.success);
-    setMessage(response.message);
-    setShowSuccessMessage(true);
-    setTimeout(() => {
-      setShowSuccessMessage(false);
-    }, 5000);
-  };
-  const fetchBooks = async () => {
-    try {
-      const data = await BookService();
-      setBooks(data);
-    } catch (error) {
-      console.error("Failed to fetch books:", error);
-    }
-  };
+  const {
+    books,
+    addBook,
+    removeBook,
+    editBook,
+    setSearchQuery,
+    showSuccessMessage,
+    SuccessMessage,
+    setCurrentPage,
+    booksPerPage,
+    Message,
+    filteredBooks,
+  } = useBooks();
   return (
     <Router>
       <div className="bg-gradient-to-r from-cyan-500 to-blue-500">
@@ -104,12 +35,14 @@ function App() {
                   Message={Message}
                   SuccessMessage={SuccessMessage}
                   showSuccessMessage={showSuccessMessage}
-                  onAddBook={handleAddBook}
+                  onAddBook={addBook}
                 />
                 <SearchBar onSearch={setSearchQuery} />
-                <BookList
-                  books={filteredBooks}
-                  onDeleteBook={handleDeleteBook}
+                <BookList books={books} onDeleteBook={removeBook} />
+                <Pagination
+                  booksPerPage={booksPerPage}
+                  totalBooks={filteredBooks.length}
+                  paginate={setCurrentPage}
                 />
               </>
             }
@@ -123,7 +56,7 @@ function App() {
                   Message={Message}
                   SuccessMessage={SuccessMessage}
                   showSuccessMessage={showSuccessMessage}
-                  EditBook={handleEditBook}
+                  EditBook={editBook}
                 />
               </>
             }

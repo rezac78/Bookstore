@@ -1,0 +1,39 @@
+This project is a React-based web application that implements authentication and book management functionalities. It utilizes React Router for routing, Context API for state management, and Formik along with Yup for form handling and validation. The app is divided into several key components:
+
+Login Page: Authenticates users to access the application.
+Home Page: Displays the book list, search functionality, and pagination.
+Book Edit Page: Allows users to edit book details.
+Protected Routes: Ensures that certain routes are accessible only to authenticated users.
+
+<!-- Setup and Installation -->
+
+Start the development server:
+npm start
+
+<!-- Key Functionalities -->
+
+- Authentication
+  --- Context API: Used to manage the authentication state across the application.
+  --- Login Page: Handles user authentication. Upon successful login, users are redirected to the Home page.
+- Book Management
+  --- Book List: Displays all books with options to edit or delete.
+  --- Search Functionality: Allows users to filter books based on title, author, or genre.
+  --- Pagination: Splits the book list into pages to improve readability.It is created when the number of data is more than 4.
+- Forms
+  --- Formik and Yup: Used for handling form inputs and validation, ensuring a smooth user experience.
+- Routing
+  --- React Router: Manages routing within the application, enabling navigation between different pages without reloading.
+
+<!-- Component Structure -->
+
+--- App.js: The root component that sets up routing and authentication context.
+--- context/AuthContext.js: Provides authentication state and functions across the app.
+--- Components/Login/Login.js: Handles user login.
+--- Components/Home/Home.js: Displays the book list, search bar, and pagination.
+--- Components/PageEdit/PageEdit.js: Allows users to edit book details.
+--- hooks/useBooks.js: Custom hook for managing book-related operations and state.
+
+<!-- Security Features -->
+
+--- Protected Routes: Ensures that certain parts of the application are accessible only to authenticated users.
+--- RedirectIfLoggedIn: Redirects authenticated users from the login page to the home page to prevent redundant logins.

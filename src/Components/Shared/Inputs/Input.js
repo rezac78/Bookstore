@@ -15,7 +15,7 @@ const PartInputs = ({
   }`;
   return (
     <div className="mb-4">
-      {TypeFor === "Searchbar" ? null : (
+       {TypeFor !== "Searchbar" && (
         <label htmlFor={id} className="block text-sm font-medium text-gray-700">
           {Title}
         </label>

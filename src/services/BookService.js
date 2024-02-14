@@ -7,7 +7,14 @@ export const BookService = async () => {
     return error.response.data;
   }
 };
-
+export const GetOneBook = async (Id) => {
+  try {
+    const response = await api.get(`/books/${Id}`);
+    return response.data.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
 export const CreateBook = async (Data) => {
   try {
     const response = await api.post("/books", Data);
@@ -20,6 +27,14 @@ export const CreateBook = async (Data) => {
 export const deleteBook = async (Id) => {
   try {
     const response = await api.delete(`/books/${Id}`);
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+export const updateBook = async (id, updatedData) => {
+  try {
+    const response = await api.put(`/books/${id}`, updatedData);
     return response.data;
   } catch (error) {
     return error.response.data;

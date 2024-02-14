@@ -1,8 +1,10 @@
 import React from "react";
 import PartButton from "../Shared/Button/Button";
+import { useNavigate } from "react-router-dom";
 const BookList = ({ books, onDeleteBook }) => {
+  const navigate = useNavigate();
   const handleEdit = (id) => {
-    console.log(`Edit book with id: ${id}`);
+    navigate(`/${id}`);
   };
 
   const handleDelete = async (id) => {

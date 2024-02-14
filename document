@@ -37,3 +37,39 @@ npm start
 
 --- Protected Routes: Ensures that certain parts of the application are accessible only to authenticated users.
 --- RedirectIfLoggedIn: Redirects authenticated users from the login page to the home page to prevent redundant logins.
+
+<!-- Book Management Services -->
+
+--- axios : The use of axios is Communication with the endpoints that are placed in the services files
+
+- BookService()
+
+--- Purpose: Fetches all books from the server.
+--- Returns: Promise resolving to an array of books or an error message.
+
+- GetOneBook(Id)
+
+--- Purpose: Fetches a single book by its ID.
+--- Parameters: Id - The unique identifier of the book.
+--- Returns: Promise resolving to the book's data or an error message.
+
+- CreateBook(Data)
+
+--- Purpose: Creates a new book.
+--- Parameters: Data - An object containing the book's details.
+--- Returns: Promise resolving to the created book's data or an error message.
+
+- deleteBook(Id)
+
+--- Purpose: Deletes a book.
+--- Parameters: Id - The unique identifier of the book to delete.
+--- Returns: Promise resolving to the deletion response or an error message.
+
+- updateBook(id, updatedData)
+
+--- Purpose: Updates an existing book.
+--- Parameters:
+--- id - The unique identifier of the book to update.
+--- updatedData - An object containing the updated book details.
+
+- Returns: Promise resolving to the updated book's data or an error message.

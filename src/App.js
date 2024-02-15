@@ -32,7 +32,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App">
+        <div className="flex flex-col min-h-screen">
           <Navbar />
           <Routes>
             <Route

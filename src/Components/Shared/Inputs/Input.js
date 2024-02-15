@@ -9,13 +9,14 @@ const PartInputs = ({
   placeholder,
   Register,
   error,
+  keyId,
 }) => {
   const inputClassName = `${className} ${
     error ? "border-red-500" : "border-gray-300"
   }`;
   return (
-    <div className="mb-4">
-       {TypeFor !== "Searchbar" && (
+    <div key={keyId} className="mb-4">
+      {TypeFor !== "Searchbar" && (
         <label htmlFor={id} className="block text-sm font-medium text-gray-700">
           {Title}
         </label>

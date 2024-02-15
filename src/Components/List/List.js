@@ -12,7 +12,7 @@ const BookList = ({ books, onDeleteBook }) => {
   };
   return (
     <div className="flex justify-center items-center mt-2 bg-gray-100">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto p-4">
         {books.length > 0 ? (
           <ul className="space-y-4">
             {books.map((book) => (

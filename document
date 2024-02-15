@@ -15,6 +15,8 @@ npm start
 - Authentication
   --- Context API: Used to manage the authentication state across the application.
   --- Login Page: Handles user authentication. Upon successful login, users are redirected to the Home page.
+- JWT
+  --- Token: To confirm the entry and prevent going to the login page.
 - Book Management
   --- Book List: Displays all books with options to edit or delete.
   --- Search Functionality: Allows users to filter books based on title, author, or genre.

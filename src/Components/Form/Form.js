@@ -53,7 +53,7 @@ const BookForm = ({
         <PartButton
           Title="Submit"
           type="submit"
-          className="w-full px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-md transition duration-200"
+          className="w-full px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white font-bold rounded-md transition duration-200"
         />
       </form>
     </div>

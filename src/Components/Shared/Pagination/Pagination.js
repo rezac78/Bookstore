@@ -9,7 +9,7 @@ const Pagination = ({ booksPerPage, totalBooks, paginate }) => {
 
   return (
     <nav>
-      <ul className="flex justify-center list-reset border border-grey-light rounded w-auto font-sans">
+      <ul className="flex justify-center list-reset border border-grey-light rounded w-auto font-sans p-2">
         {pageNumbers.map((number) => (
           <li key={number}>
             <a

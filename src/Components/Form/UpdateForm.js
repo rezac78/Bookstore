@@ -38,10 +38,12 @@ const BookFormUpdate = ({
   }, [id, reset]);
   const onSubmit = async (data) => {
     await EditBook(id, data);
-    navigate('/');
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
   };
   return (
-    <div className="flex items-center justify-center h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
       {showSuccessMessage && (
         <PartAlert Message={Message} type={SuccessMessage} />
       )}

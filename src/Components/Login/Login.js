@@ -30,6 +30,7 @@ const Login = () => {
       setMessage(response.message);
       setShowSuccessMessage(true);
       if (response.success) {
+        localStorage.setItem("token", response.token);
         login();
         reset();
       }

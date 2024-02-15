@@ -29,9 +29,9 @@ const Login = () => {
       setSuccessMessage(response.success);
       setMessage(response.message);
       setShowSuccessMessage(true);
+      localStorage.setItem("token", response.token);
       if (response.success) {
-        localStorage.setItem("token", response.token);
-        login();
+        login(response.token);
         reset();
       }
       setTimeout(() => {
